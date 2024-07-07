@@ -1,0 +1,68 @@
+textarea::placeholder {
+    color: aliceblue;
+}
+
+.editor,
+.highlighter {
+    margin: 0px !important;
+    padding: 20px !important;
+    border: 0;
+    width: 50%;
+    height: 50%;
+}
+
+.editor,
+.highlighter {
+    font-size: 15px;
+    font-family: monospace;
+    line-height: 20px;
+}
+
+.editor,
+.highlighter {
+    position: absolute;
+    top: 35%;
+    left: 25%;
+}
+
+.editor {
+    z-index: 1;
+    color: aqua;
+}
+
+.editor:focus {
+    outline: none;
+}
+
+.highlighter {
+    z-index: 0;
+}
+
+.editor {
+    color: transparent;
+    background: transparent;
+    caret-color: aqua;
+}
+
+.editor,
+.highlighter {
+    overflow: auto;
+}
+
+.editor {
+    resize: none;
+}
+
+.editor,
+.highlighter,
+.highlighter * {
+    tab-size: 2;
+}
+
+.highlighter {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}

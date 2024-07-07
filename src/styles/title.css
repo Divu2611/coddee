@@ -1,0 +1,14 @@
+.title,
+.tag {
+    text-align: center;
+}
+
+.title {
+    font-size: 45px;
+}
+
+.heading {
+    position: absolute;
+    top: 7%;
+    transform: translateX(-50%);
+}
