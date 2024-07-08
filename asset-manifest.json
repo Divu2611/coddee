@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/coddee/static/css/main.32b903ca.css",
+    "main.js": "/coddee/static/js/main.2cb37824.js",
+    "static/js/453.598de340.chunk.js": "/coddee/static/js/453.598de340.chunk.js",
+    "static/media/logo.svg": "/coddee/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/coddee/index.html",
+    "main.32b903ca.css.map": "/coddee/static/css/main.32b903ca.css.map",
+    "main.2cb37824.js.map": "/coddee/static/js/main.2cb37824.js.map",
+    "453.598de340.chunk.js.map": "/coddee/static/js/453.598de340.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.32b903ca.css",
+    "static/js/main.2cb37824.js"
+  ]
+}
