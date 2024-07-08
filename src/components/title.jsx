@@ -1,5 +1,7 @@
+// Importing Components.
 import React, { Component } from 'react';
 
+// Importing CSS.
 import "../styles/title.css";
 
 const Title = () => {
