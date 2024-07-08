@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import Prism from "prismjs";
 import Dropdown from './common/dropdown';
 
+import getLanguages from '../services/languageService';
+// import "../function/p"
+
 import "../styles/prism.css";
 import "../styles/codeEditor.css";
 
-import getLanguages from '../services/languageService';
-
 class CodeEditor extends Component {
     state = {
-        languageSelected: "python",
+        languageSelected: "none",
         languages: [],
         code: "",
         tabSize: 2,
@@ -88,8 +89,8 @@ class CodeEditor extends Component {
     }
 
     handleLanguageChange = ({ currentTarget: input }) => {
-        var language = input.value;
-        this.setState({ language });
+        var languageSelected = input.value;
+        this.setState({ languageSelected });
     }
 
 

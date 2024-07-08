@@ -1,9 +1,7 @@
 const languages = [
-    { id: 1, name: "C" },
-    { id: 2, name: "C++" },
-    { id: 3, name: "Python" },
-    { id: 4, name: "Java" },
-    { id: 5, name: "JavaScript" }
+    { id: 1, code: "html", name: "HTML" },
+    { id: 2, code: "css", name: "CSS" },
+    { id: 5, code: "javascript", name: "JavaScript" }
 ];
 
 export default function getLanguages() {

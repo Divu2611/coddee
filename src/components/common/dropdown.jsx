@@ -11,9 +11,10 @@ const Dropdown = (props) => {
 
             <select className="form-control ms-1 options"
                 onChange={onChange}>
+                    <option value="none"/>
                 {items.map(item => (
                     <option key={item.id}
-                        value={item.name}>
+                        value={item.code}>
                         {item.name}
                     </option>
                 ))}
