@@ -2,6 +2,21 @@ textarea::placeholder {
     color: aliceblue;
 }
 
+.selector {
+    position: absolute;
+    top: 30%;
+    transform: translateX(-50%);
+}
+
+.label {
+    margin-right: 5px;
+    font-style: italic;
+}
+
+.options {
+    margin-left: 5px;
+}
+
 .editor,
 .highlighter {
     margin: 0px !important;

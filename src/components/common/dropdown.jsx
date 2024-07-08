@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
-import ListGroup from './listGroup';
 
 const Dropdown = (props) => {
-    const { items } = props;
+    const { onChange, items } = props;
 
     return (
-        <div className="dropdown">
-            <button className="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Choose your language...
-            </button>
+        <div className="form-group selector">
+            <label className="form-label label">
+                PICK A LANGUAGE...
+            </label>
 
-            <ListGroup items={items} />
+            <select className="form-control ms-1 options"
+                onChange={onChange}>
+                {items.map(item => (
+                    <option key={item.id}
+                        value={item.name}>
+                        {item.name}
+                    </option>
+                ))}
+            </select>
         </div>
     );
 }

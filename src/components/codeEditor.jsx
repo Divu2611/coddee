@@ -5,13 +5,15 @@ import Dropdown from './common/dropdown';
 import "../styles/prism.css";
 import "../styles/codeEditor.css";
 
-import { getLanguages } from '../services/languageService';
+import getLanguages from '../services/languageService';
 
 class CodeEditor extends Component {
     state = {
-        languageSelected: "html",
+        languageSelected: "python",
         languages: [],
-        code: ""
+        code: "",
+        tabSize: 2,
+        tabCharacter: "  "
     }
 
     handleChange = (input) => {
@@ -21,7 +23,7 @@ class CodeEditor extends Component {
         if (code[code.length - 1] == "\n") {
             code += " ";
         }
-
+        console.log(code);
         this.setState({ code });
     }
 
@@ -32,129 +34,99 @@ class CodeEditor extends Component {
     }
 
     handleTab = (event) => {
-        // if (event.key === "Tab") {
+        var textArea = event.target;
 
-        //     // Prevent focus change
-        //     e.preventDefault();
+        var code = textArea.value;
+        var selectionStart = textArea.selectionStart;
+        var selectionEnd = textArea.selectionEnd;
 
-        //     if (event.ke === "Shift") {
+        var { tabCharacter, tabSize } = this.state;
 
-        //         // Unindent selected lines
-        //         const linesBeforeCaret = this.getLines(value, selectionStart);
-        //         const startLine = linesBeforeCaret.length - 1;
-        //         const endLine = this.getLines(value, selectionEnd).length - 1;
-        //         const nextValue = value
-        //             .split('\n')
-        //             .map((line, i) => {
-        //                 if (
-        //                     i >= startLine &&
-        //                     i <= endLine &&
-        //                     line.startsWith(tabCharacter)
-        //                 ) {
-        //                     return line.substring(tabCharacter.length);
-        //                 }
+        if (event.key === "Tab") {
+            /* Tab key pressed */
+            event.preventDefault(); // stop normal
 
-        //                 return line;
-        //             })
-        //             .join('\n');
+            if (selectionStart !== selectionEnd) {
+                //
+                const linesBeforeCaret = code.substring(0, selectionStart).split('\n');
+                const startTabLine = linesBeforeCaret.length - 1;
 
-        //         if (value !== nextValue) {
-        //             const startLineText = linesBeforeCaret[startLine];
+                const endTabLine = code.substring(0, selectionEnd).split('\n').length - 1;
+                const startLineText = linesBeforeCaret[startTabLine];
 
-        //             applyEdits({
-        //                 value: nextValue,
-        //                 // Move the start cursor if first line in selection was modified
-        //                 // It was modified only if it started with a tab
-        //                 selectionStart: startLineText?.startsWith(tabCharacter)
-        //                     ? selectionStart - tabCharacter.length
-        //                     : selectionStart,
-        //                 // Move the end cursor by total number of characters removed
-        //                 selectionEnd: selectionEnd - (value.length - nextValue.length),
-        //             });
-        //         }
-        //     } else if (selectionStart !== selectionEnd) {
-        //         // Indent selected lines
-        //         const linesBeforeCaret = this.getLines(value, selectionStart);
-        //         const startLine = linesBeforeCaret.length - 1;
-        //         const endLine = this.getLines(value, selectionEnd).length - 1;
-        //         const startLineText = linesBeforeCaret[startLine];
+                code = code
+                    .split('\n')
+                    .map((line, i) => {
+                        if (i >= startTabLine && i <= endTabLine) {
+                            return tabCharacter + line;
+                        }
 
-        //         applyEdits({
-        //             value: value
-        //                 .split('\n')
-        //                 .map((line, i) => {
-        //                     if (i >= startLine && i <= endLine) {
-        //                         return tabCharacter + line;
-        //                     }
+                        return line;
+                    })
+                    .join('\n');
 
-        //                     return line;
-        //                 })
-        //                 .join('\n'),
-        //             // Move the start cursor by number of characters added in first line of selection
-        //             // Don't move it if it there was no text before cursor
-        //             selectionStart:
-        //                 startLineText && /\S/.test(startLineText)
-        //                     ? selectionStart + tabCharacter.length
-        //                     : selectionStart,
-        //             // Move the end cursor by total number of characters added
-        //             selectionEnd:
-        //                 selectionEnd + tabCharacter.length * (endLine - startLine + 1),
-        //         });
-        //     } else {
-        //         const updatedSelection = selectionStart + tabCharacter.length;
+                event.target.selectionStart =
+                    startLineText && /\S/.test(startLineText)
+                        ? selectionStart + tabSize
+                        : selectionStart;
 
-        //         applyEdits({
-        //             // Insert tab character at caret
-        //             value:
-        //                 value.substring(0, selectionStart) +
-        //                 tabCharacter +
-        //                 value.substring(selectionEnd),
-        //             // Update caret position
-        //             selectionStart: updatedSelection,
-        //             selectionEnd: updatedSelection,
-        //         });
-        //     }
-        // }
+                event.target.selectionEnd = selectionEnd + tabSize * (endTabLine - startTabLine + 1);
+            } else {
+                //
+                const newSelectionStart = selectionStart + tabSize;
+
+                code = code.substring(0, selectionStart) + tabCharacter + code.substring(selectionEnd);
+
+                event.target.selectionStart = newSelectionStart;
+                event.target.selectionEnd = newSelectionStart;
+            }
+
+            this.setState({ code }); // Update text to include indent
+            textArea.value = code;
+        }
+    }
+
+    handleLanguageChange = ({ currentTarget: input }) => {
+        var language = input.value;
+        this.setState({ language });
     }
 
 
     render() {
         return (
             <React.Fragment>
-                <Dropdown items={this.state.languages} />
+                <Dropdown items={this.state.languages}
+                    onChange={this.handleLanguageChange} />
 
-                <div className="container">
-                    <textarea className="editor"
-                        spellCheck="false"
-                        placeholder="Start Your Coddeeng Experience..."
-                        onScroll={this.handleScroll}
-                        onChange={this.handleChange}
-                        onKeyDown={this.handleTab} />
 
-                    <pre className="highlighter"
-                        aria-hidden="true"
-                        ref={this.highlighterComponent}>
-                        <code className={`language-${this.state.languageSelected}`}>
-                            {this.state.code}
-                        </code>
-                    </pre>
-                </div>
+                <textarea className="editor"
+                    spellCheck="false"
+                    placeholder="Start Your Coddeeng Experience..."
+                    onScroll={this.handleScroll}
+                    onChange={this.handleChange}
+                    onKeyDown={this.handleTab} />
+
+                <pre className="highlighter"
+                    aria-hidden="true"
+                    ref={this.highlighterComponent}>
+                    <code className={`language-${this.state.languageSelected}`}>
+                        {this.state.code}
+                    </code>
+                </pre>
             </React.Fragment>
         );
     }
 
     componentDidMount() {
-        this.setState({ languages: getLanguages() });
-        console.log(this.state.languages);
+        var languages = getLanguages();
+        this.setState({ languages });
+
         Prism.highlightAll();
     }
 
     componentDidUpdate() {
         Prism.highlightAll();
     }
-
-    // getLines = (text, position) =>
-    //     text.substring(0, position).split('\n');
 }
 
 export default CodeEditor;

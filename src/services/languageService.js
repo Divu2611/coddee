@@ -6,6 +6,6 @@ const languages = [
     { id: 5, name: "JavaScript" }
 ];
 
-export function getLanguages() {
+export default function getLanguages() {
     return languages;
 }

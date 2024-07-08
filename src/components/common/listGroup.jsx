@@ -4,12 +4,14 @@ const ListGroup = (props) => {
     const { items } = props;
 
     return (
-        <ul className="list-group">{
-            items.map(
-                item => <li key={item.id} className='list-group-item'>
-                    item.name
-                </li>
-            )}
+        <ul className="dropdown-menu">
+            {
+                items.map(
+                    item => <li key={item.id} className='dropdown-item'>
+                        {item.name}
+                    </li>
+                )
+            }
         </ul>
     );
 }
