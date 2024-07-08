@@ -23,7 +23,7 @@ class CodeEditor extends Component {
         if (code[code.length - 1] == "\n") {
             code += " ";
         }
-        console.log(code);
+
         this.setState({ code });
     }
 
@@ -64,6 +64,7 @@ class CodeEditor extends Component {
                         return line;
                     })
                     .join('\n');
+                textArea.value = code;
 
                 event.target.selectionStart =
                     startLineText && /\S/.test(startLineText)
@@ -76,13 +77,13 @@ class CodeEditor extends Component {
                 const newSelectionStart = selectionStart + tabSize;
 
                 code = code.substring(0, selectionStart) + tabCharacter + code.substring(selectionEnd);
+                textArea.value = code;
 
                 event.target.selectionStart = newSelectionStart;
                 event.target.selectionEnd = newSelectionStart;
             }
 
             this.setState({ code }); // Update text to include indent
-            textArea.value = code;
         }
     }
 
